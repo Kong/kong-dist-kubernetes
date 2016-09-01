@@ -1,4 +1,4 @@
-# [KONG][website-url] :heavy_plus_sign: [GKE Deployment](https://cloud.google.com/compute/)
+# [KONG][website-url] :heavy_plus_sign: [Kubernetes Deployment](http://kubernetes.io/)
 
 [![Website][website-badge]][website-url]
 [![Documentation][documentation-badge]][documentation-url]
