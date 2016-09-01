@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-proxy
+spec:
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
+  ports:
+  - name: kong-proxy
+    port: 8000
+    targetPort: 8000
+    protocol: TCP
+  - name: kong-proxy-ssl
+    port: 8443
+    targetPort: 8443
+    protocol: TCP
+  selector:
+    app: kong
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-admin
+spec:
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
+  ports:
+  - name: kong-admin
+    port: 8001
+    targetPort: 8001
+    protocol: TCP
+  selector:
+    app: kong
+
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kong-rc
+spec:
+  template:
+    metadata:
+      labels:
+        name: kong-rc
+        app: kong
+    spec:
+      containers:
+      - name: kong
+        image: mashape/kong:0.9.0
+        env:
+          - name: KONG_DATABASE
+            value: cassandra
+          - name: KONG_CASSANDRA_CONTACT_POINTS
+            value: kong-database
+          - name: KONG_PG_USER
+            value: kong
+          - name: KONG_PG_DATABASE
+            value: kong
+          - name: KONG_PG_PASSWORD
+            value: kong
+          - name: KONG_PG_HOST
+            value: kong-database 
+          - name: KONG_DNS_RESOLVER
+            value: 10.39.240.10
+          - name: KONG_DNSMASQ
+            value: "off"
+          - name: KONG_CASSANDRA_KEYSPACE
+            value: kong
+        ports:
+        - name: admin
+          containerPort: 8001
+          protocol: TCP
+        - name: proxy
+          containerPort: 8000
+          protocol: TCP
+        - name: proxy-ssl
+          containerPort: 8443
+          protocol: TCP
+        - name: surf-tcp
+          containerPort: 7946
+          protocol: TCP
+        - name: surf-udp
+          containerPort: 7946
+          protocol: UDP

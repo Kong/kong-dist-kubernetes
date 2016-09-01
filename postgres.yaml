@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-database
+spec:
+  ports:
+  - name: pgql
+    port: 5432
+    targetPort: 5432
+    protocol: TCP
+  selector:
+    app: kong-database
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv0001
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteOnce
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pg-data-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kong-database
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kong-database
+    spec:
+      containers:
+        - name: kong-database
+          image: postgres:9.4
+          env:
+            - name: POSTGRES_USER
+              value: kong
+            - name: POSTGRES_PASSWORD
+              value: kong
+            - name: POSTGRES_DB
+              value: kong
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: pg-data
+      volumes:
+        - name: pg-data
+          persistentVolumeClaim:
+            claimName: pg-data-claim
