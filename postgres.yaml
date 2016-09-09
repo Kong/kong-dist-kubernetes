@@ -12,25 +12,14 @@ spec:
     app: kong-database
 
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv0001
-  labels:
-    type: local
-spec:
-  capacity:
-    storage: 50Gi
-  accessModes:
-    - ReadWriteOnce
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pg-data-claim
+  annotations:
+        volume.alpha.kubernetes.io/storage-class: ssd
 spec:
-  accessModes:
-    - ReadWriteOnce
+  accessModes: [ "ReadWriteOnce" ]
   resources:
     requests:
       storage: 50Gi
