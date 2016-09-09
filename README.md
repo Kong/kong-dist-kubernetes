@@ -20,7 +20,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     Download or clone the repo
 
     ```bash
-    $ git clone git@github.com:Mashape/kong-dist-google-cloud.git
+    $ git clone git@github.com:Mashape/kong-dist-kubernetes.git
     $ cd kong-dist-google-cloud
     ```
 
