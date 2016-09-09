@@ -69,7 +69,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     ```bash
     $ kubectl get svc kube-dns --namespace=kube-system | grep kube-dns | awk '{print $2}
     ``` 
-    
+    When ready, deploy with the following command:
 
     ```bash
     $ kubectl create -f kong.yaml
@@ -79,11 +79,12 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
     Now you can see the resources that have been deployed using `kubectl`:
 
-
     ```bash
     $ kubectl get rc
+    $ kubectl get deployment
     $ kubectl get pods
     $ kubectl get services
+    $ kubectl get logs <pod-name>
     ```
     Once the `EXTERNAL_IP` is available for Kong Proxy and Admin services, you can test Kong:
 
