@@ -67,7 +67,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     command to get the `kube-dns` IP
     
     ```bash
-    $ kubectl get svc kube-dns --namespace=kube-system | grep kube-dns | awk '{print $2}
+    $ kubectl get svc kube-dns --namespace=kube-system | grep kube-dns | awk '{print $2}'
     ``` 
     When ready, deploy with the following command:
 
