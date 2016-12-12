@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kong-database
+  name: postgres
 spec:
   ports:
   - name: pgql
@@ -9,34 +9,21 @@ spec:
     targetPort: 5432
     protocol: TCP
   selector:
-    app: kong-database
-
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pg-data-claim
-  annotations:
-        volume.alpha.kubernetes.io/storage-class: ssd
-spec:
-  accessModes: [ "ReadWriteOnce" ]
-  resources:
-    requests:
-      storage: 50Gi
+    app: postgres
 ---
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: kong-database
+  name: postgres
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: kong-database
+        app: postgres
     spec:
       containers:
-        - name: kong-database
+        - name: postgres
           image: postgres:9.4
           env:
             - name: POSTGRES_USER
@@ -54,5 +41,4 @@ spec:
               name: pg-data
       volumes:
         - name: pg-data
-          persistentVolumeClaim:
-            claimName: pg-data-claim
+          emptyDir: {}

@@ -55,7 +55,7 @@ spec:
           - name: KONG_DATABASE
             value: cassandra
           - name: KONG_CASSANDRA_CONTACT_POINTS
-            value: kong-database
+            value: cassandra
           - name: KONG_PG_USER
             value: kong
           - name: KONG_PG_DATABASE
@@ -63,13 +63,15 @@ spec:
           - name: KONG_PG_PASSWORD
             value: kong
           - name: KONG_PG_HOST
-            value: kong-database 
+            value: postgres 
           - name: KONG_DNS_RESOLVER
-            value: 10.39.240.10
+            value: 10.100.0.10
           - name: KONG_DNSMASQ
             value: "off"
           - name: KONG_CASSANDRA_KEYSPACE
             value: kong
+          - name: KONG_CASSANDRA_REPL_FACTOR
+            value: "2"
         ports:
         - name: admin
           containerPort: 8001
