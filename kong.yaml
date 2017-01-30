@@ -55,7 +55,7 @@ spec:
           - name: KONG_DATABASE
             value: cassandra
           - name: KONG_CASSANDRA_CONTACT_POINTS
-            value: cassandra
+            value: cassandra.default.svc.cluster.local
           - name: KONG_PG_USER
             value: kong
           - name: KONG_PG_DATABASE
