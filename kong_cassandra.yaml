@@ -50,28 +50,22 @@ spec:
     spec:
       containers:
       - name: kong
-        image: mashape/kong:cassandra3
+        image: kong
         env:
           - name: KONG_DATABASE
             value: cassandra
           - name: KONG_CASSANDRA_CONTACT_POINTS
             value: cassandra.default.svc.cluster.local
-          - name: KONG_PG_USER
-            value: kong
-          - name: KONG_PG_DATABASE
-            value: kong
-          - name: KONG_PG_PASSWORD
-            value: kong
-          - name: KONG_PG_HOST
-            value: postgres 
-          - name: KONG_DNS_RESOLVER
-            value: 10.100.0.10
-          - name: KONG_DNSMASQ
-            value: "off"
           - name: KONG_CASSANDRA_KEYSPACE
             value: kong
           - name: KONG_CASSANDRA_REPL_FACTOR
             value: "2"
+          - name: KONG_HOST_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+        command: [ "/bin/sh", "-c", "KONG_CLUSTER_ADVERTISE=$(KONG_HOST_IP):7946 KONG_NGINX_DAEMON='off' kong start" ]
         ports:
         - name: admin
           containerPort: 8001
