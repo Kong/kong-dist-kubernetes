@@ -62,9 +62,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
 3. **Deploying Kong on the cluster**
 
-    Using `kong_<postgres|cassandra>.yaml`, deploy a  Kong `Service` and a `Deployment` to the cluster created in the last step. Update the
-    environment variable `KONG_DNS_RESOLVER` with the IP of the DNS resolver you want use or Kubernetes `kube-dns` IP. Use following 
-    command to get the `kube-dns` IP
+    Using `kong_<postgres|cassandra>.yaml`, deploy a  Kong `Service` and a `Deployment` to the cluster created in the last step.
     
     When ready, deploy with the following command:
 
