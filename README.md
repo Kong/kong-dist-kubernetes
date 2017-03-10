@@ -9,70 +9,72 @@
 
 Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
-1. **Initial setup**:
-    
-    Skip to step 2 if you already provisioned a cluster and registered it with Kubernetes.
-    
-    ## Deploy a GKE cluster
-    
-    You would need [gcloud](https://cloud.google.com/sdk/) and [kubectl](https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface) command-line tools installed and set up to run deployment commands. Also make sure your Google Cloud account has at least two STATIC_ADDRESSES available. 
-
-    Download or clone the repo
+1. **Initial setup**
+  
+    Download or clone the following repo:
 
     ```bash
     $ git clone git@github.com:Mashape/kong-dist-kubernetes.git
-    $ cd kong-dist-google-cloud
+    $ cd kong-dist-kubernetes
     ```
-
-    Using `cluster.yaml`, deploy a GKE cluster to use for deploying the solution later. Fill in the following information before deploying:
     
-    * desired cluster name
-    * zone in which to run the cluster
-    * basicauth username and password for authenticating access to the cluster
+    Skip to step 3 if you have already provisioned a cluster and registered it
+    with Kubernetes.
 
-    When ready, deploy with the following command:
+2.  **Deploy a GKE cluster**
+    
+    You need [gcloud](https://cloud.google.com/sdk/) and
+    [kubectl]https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface)
+    command-line tools installed and set upto run deployment commands.
+    Also make sure your Google Cloud account has atleast two `STATIC_ADDRESSES` available. 
+
+    Using the `cluster.yaml` file from this repo, deploy a
+    GKE cluster. Provide the following information before deploying:
+    
+    1. Desired cluster name
+    2. Zone in which to run the cluster
+    3. A basicauth username and password for authenticating the access to the
+       cluster
 
     ```bash
-    $ gcloud deployment-manager deployments create cluster --config cluster.yaml
+    $ gcloud deployment-manager deployments \ 
+        create cluster --config cluster.yaml
     ```
 
-2. **Deploy a Kong supported Database**
+    By now, you have provisioned a Kubernetes managed cluster.
 
-    
-    ## Cassandra
 
-    Using `cassandra.yaml` deploy a Cassandra `Service` and a `ReplicationController` to the cluster created in the last step.	
+3. **Deploy a Kong supported database**
+  
+    Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.
 
-    When ready, deploy with the following command:
+    For Cassandra, use the `cassandra.yaml` file from this repo to deploy a
+    Cassandra `Service` and a `ReplicationController` in the cluster:  
 
     ```bash
     $ kubectl create -f cassandra.yaml
     ```
     
-   ## Postgres
-   
-    Using `postgres.yaml` deploy a Postges `Service` and a `ReplicationController` to the cluster created in the last step.
-
-    When ready, deploy with the following command:
+    For PostgreSQL, use the `postgres.yaml` file from the kong-dist-kubernetes 
+    repo to deploy a PostgreSQL `Service` and a `ReplicationController` in the
+    cluster:
 
     ```bash
     $ kubectl create -f postgres.yaml
     ```
-   
 
-3. **Deploying Kong on the cluster**
+4. **Deploy Kong**
 
-    Using `kong_<postgres|cassandra>.yaml`, deploy a  Kong `Service` and a `Deployment` to the cluster created in the last step.
+    Using the `kong_<postgres|cassandra>.yaml` file from this repo, deploy
+    a Kong `Service` and a `Deployment` to the cluster created in the last step:
     
-    When ready, deploy with the following command:
-
     ```bash
     $ kubectl create -f kong_<postgres|cassandra>.yaml.yaml
     ```
 
-3. **Verifying deployment**
+5. **Verify your deployments**
 
-    Now you can see the resources that have been deployed using `kubectl`:
+    You can now see the resources that have been deployed using `kubectl`:
 
     ```bash
     $ kubectl get rc
@@ -81,19 +83,19 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     $ kubectl get services
     $ kubectl get logs <pod-name>
     ```
-    Once the `EXTERNAL_IP` is available for Kong Proxy and Admin services, you can test Kong:
+
+    Once the `EXTERNAL_IP` is available for Kong Proxy and Admin services, you
+    can test Kong by making the following requests:
 
     ```bash
     $ curl <admin-ip-address>:8001
     $ curl <proxy-ip-address>:8000
     ```
 
-3. **Using Kong:**
+6. **Using Kong**
 
-    Quickly learn how to use Kong with the [5-minute Quickstart](https://getkong.org/docs/latest/getting-started/quickstart/).
-
-    
-
+    Quickly learn how to use Kong with the 
+    [5-minute Quickstart](/docs/latest/getting-started/quickstart/).
 
 ## Important Note
 
