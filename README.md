@@ -10,19 +10,19 @@
 Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
 1. **Initial setup**:
+
+    Download or clone the repo
+
+    ```bash
+    $ git clone git@github.com:Mashape/kong-dist-kubernetes.git
+    $ cd kong-dist-kubernetes
+    ```
     
     Skip to step 2 if you already provisioned a cluster and registered it with Kubernetes.
     
     ## Deploy a GKE cluster
     
     You would need [gcloud](https://cloud.google.com/sdk/) and [kubectl](https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface) command-line tools installed and set up to run deployment commands. Also make sure your Google Cloud account has at least two STATIC_ADDRESSES available. 
-
-    Download or clone the repo
-
-    ```bash
-    $ git clone git@github.com:Mashape/kong-dist-kubernetes.git
-    $ cd kong-dist-google-cloud
-    ```
 
     Using `cluster.yaml`, deploy a GKE cluster to use for deploying the solution later. Fill in the following information before deploying:
     
