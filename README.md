@@ -69,7 +69,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     a Kong `Service` and a `Deployment` to the cluster created in the last step:
     
     ```bash
-    $ kubectl create -f kong_<postgres|cassandra>.yaml.yaml
+    $ kubectl create -f kong_<postgres|cassandra>.yaml
     ```
 
 5. **Verify your deployments**
