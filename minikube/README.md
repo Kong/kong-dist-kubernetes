@@ -1,52 +1,20 @@
-# [KONG][website-url] :heavy_plus_sign: [Kubernetes Deployment](http://kubernetes.io/)
+Kong can easily be provisioned to Minikube cluster using the following steps:
 
-[![Website][website-badge]][website-url]
-[![Documentation][documentation-badge]][documentation-url]
-[![Mailing List][mailing-list-badge]][mailing-list-url]
-[![Gitter Badge][gitter-badge]][gitter-url]
+1.  **Deploy Kubernetes via Minikube**
+    
+    You need [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) and
+    [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+    command-line tools installed and set up to run deployment commands.
 
-[![][kong-logo]][website-url]
-
-Kong can easily be provisioned to Kubernetes cluster using the following steps:
-
-1. **Initial setup**
-  
-    Download or clone the following repo:
+    Using the `minikube` command, deploy a Kubernetes cluster.
 
     ```bash
-    $ git clone git@github.com:Mashape/kong-dist-kubernetes.git
-    $ cd kong-dist-kubernetes
-    ```
-    If you want to run Kubernetes locally, please follow the [README](/minikube) 
-    in `minikube` subfolder.
-    
-    Skip to step 3 if you have already provisioned a cluster and registered it
-    with Kubernetes.
-
-2.  **Deploy a GKE cluster**
-    
-    You need [gcloud](https://cloud.google.com/sdk/) and
-    [kubectl]https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface)
-    command-line tools installed and set upto run deployment commands.
-    Also make sure your Google Cloud account has atleast two `STATIC_ADDRESSES` available.
-
-    Using the `cluster.yaml` file from this repo, deploy a
-    GKE cluster. Provide the following information before deploying:
-    
-    1. Desired cluster name
-    2. Zone in which to run the cluster
-    3. A basicauth username and password for authenticating the access to the
-       cluster
-
-    ```bash
-    $ gcloud deployment-manager deployments \ 
-        create cluster --config cluster.yaml
+    $ minikube start
     ```
 
-    By now, you have provisioned a Kubernetes managed cluster.
+    By now, you have provisioned a Kubernetes managed cluster locally.
 
-
-3. **Deploy a Kong supported database**
+2. **Deploy a Kong supported database**
   
     Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.
 
@@ -65,7 +33,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     $ kubectl create -f postgres.yaml
     ```
 
-4. **Deploy Kong**
+3. **Deploy Kong**
 
     Using the `kong_<postgres|cassandra>.yaml` file from this repo, deploy
     a Kong `Service` and a `Deployment` to the cluster created in the last step:
@@ -74,7 +42,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     $ kubectl create -f kong_<postgres|cassandra>.yaml
     ```
 
-5. **Verify your deployments**
+4. **Verify your deployments**
 
     You can now see the resources that have been deployed using `kubectl`:
 
@@ -86,15 +54,17 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     $ kubectl get logs <pod-name>
     ```
 
-    Once the `EXTERNAL_IP` is available for Kong Proxy and Admin services, you
+    Once the kong-admin and kong-proxy pods are started, you
     can test Kong by making the following requests:
 
     ```bash
-    $ curl <admin-ip-address>:8001
-    $ curl <proxy-ip-address>:8000
+    $ curl $(minikube service --url kong-admin)
+    $ curl $(minikube service --url kong-proxy|head -n1)
     ```
 
-6. **Using Kong**
+    It may take up to 3 minutes for all services to come up.
+
+5. **Using Kong**
 
     Quickly learn how to use Kong with the 
     [5-minute Quickstart](https://getkong.org/docs/latest/getting-started/quickstart/).
