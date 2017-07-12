@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "kong.fullname" . }}-admin
+spec:
+  type: {{ .Values.kong.admin.type }}
+  ports:
+  - name: kong-admin
+    port: {{ .Values.kong.admin.servicePort }}
+    targetPort: {{ .Values.kong.admin.containerPort }}
+    protocol: TCP
+  - name: kong-admin-ssl
+    port: {{ .Values.kong.admin.serviceSSLPort }}
+    targetPort: {{ .Values.kong.admin.containerSSLPort }}
+    protocol: TCP
+  selector:
+    app: "{{ template "kong.fullname" . }}"

@@ -1,0 +1,55 @@
+1. Kong Admin can be accessed via port 8001 and SSL port 8444 on the following DNS name from within your cluster:
+{{ template "kong.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+
+To connect from outside the K8s cluster:
+   {{- if contains "LoadBalancer" .Values.kong.proxy.type }}
+     HOST=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.status.loadBalancer.ingress.ip}')
+     PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.spec.ports[0].nodePort}')
+     SSL_PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.spec.ports[1].nodePort}')
+
+   {{- else if contains "NodePort" .Values.kong.admin.type }}
+     HOST=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath='{.items[0].status.addresses[0].address}')
+     PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.spec.ports[0].nodePort}')
+     SSL_PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.spec.ports[1].nodePort}')
+
+   {{- else if contains "ClusterIP" .Values.service.type }}
+     HOST=127.0.0.1
+
+     # Execute the following commands to route the connection to Admin port:
+     export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "kong.fullname" . }}" -o jsonpath="{.items[0].metadata.name}")
+     kubectl port-forward $POD_NAME {{ default "8001" .Values.kong.admin.servicePort }}:{{ default "8001" .Values.kong.admin.servicePort }}
+
+     # Execute the following commands to route the connection to Admin SSL port:
+     export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "kong.fullname" . }}" -o jsonpath="{.items[0].metadata.name}")
+     kubectl port-forward $POD_NAME {{ default "8444" .Values.kong.admin.serviceSSLPort }}:{{ default "8444" .Values.kong.admin.serviceSSLPort }}
+
+   {{- end }}
+
+
+2. Kong Proxy can be accessed via port 8000 and SSL port 8443 on the following DNS name from within your cluster:
+{{ template "kong.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+
+To connect from outside the K8s cluster:
+   {{- if contains "LoadBalancer" .Values.kong.proxy.type }}
+     HOST=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-proxy -o jsonpath='{.status.loadBalancer.ingress.ip}')
+     PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-proxy -o jsonpath='{.spec.ports[0].nodePort}')
+     SSL_PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-proxy -o jsonpath='{.spec.ports[1].nodePort}')
+
+   {{- else if contains "NodePort" .Values.kong.proxy.type }}
+     HOST=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath='{.items[0].status.addresses[0].address}')
+     PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-proxy -o jsonpath='{.spec.ports[0].nodePort}')
+     SSL_PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-proxy -o jsonpath='{.spec.ports[1].nodePort}')
+
+   {{- else if contains "ClusterIP" .Values.service.type }}
+     HOST=127.0.0.1
+
+     # Execute the following commands to route the connection to proxy SSL port:
+     export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "kong.fullname" . }}" -o jsonpath="{.items[0].metadata.name}")
+     kubectl port-forward $POD_NAME {{ default "8000" .Values.kong.proxy.servicePort }}:{{ default "8000" .Values.kong.proxy.servicePort }}
+
+     # Execute the following commands to route the connection to proxy port:
+     export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "kong.fullname" . }}" -o jsonpath="{.items[0].metadata.name}")
+     kubectl port-forward $POD_NAME {{ default "8443" .Values.kong.proxy.serviceSSLPort }}:{{ default "8443" .Values.kong.proxy.serviceSSLPort }}
+
+   {{- end }}
+
