@@ -33,16 +33,31 @@ Kong can easily be provisioned to Minikube cluster using the following steps:
     $ kubectl create -f postgres.yaml
     ```
 
-3. **Deploy Kong**
+3. **Prepare database**
 
-    Using the `kong_<postgres|cassandra>.yaml` file from this repo, deploy
-    a Kong `Service` and a `Deployment` to the cluster created in the last step:
+    Using the `kong_migration_<postgres|cassandra>.yaml` file from this repo,
+    run the migration job, jump to step 5 if Kong backing databse is up–to–date:
+    
+    ```bash
+    $ kubectl create -f kong_migration_<postgres|cassandra>.yaml
+    ```
+    Once job completes, you can remove the pod by running following command:
+
+    ```bash
+    $ kubectl delete -f kong_migration_<postgres|cassandra>.yaml
+    ```
+
+4. **Deploy Kong**
+
+    Once migration Using the `kong_<postgres|cassandra>.yaml` file from this
+    repo, deploy Kong admin and proxy services and a `Deployment` controller to
+    the cluster created in the last step:
     
     ```bash
     $ kubectl create -f kong_<postgres|cassandra>.yaml
     ```
 
-4. **Verify your deployments**
+5. **Verify your deployments**
 
     You can now see the resources that have been deployed using `kubectl`:
 
@@ -54,7 +69,7 @@ Kong can easily be provisioned to Minikube cluster using the following steps:
     $ kubectl get logs <pod-name>
     ```
 
-    Once the kong-admin and kong-proxy pods are started, you
+    Once the Kong services are started, you
     can test Kong by making the following requests:
 
     ```bash
@@ -64,7 +79,7 @@ Kong can easily be provisioned to Minikube cluster using the following steps:
 
     It may take up to 3 minutes for all services to come up.
 
-5. **Using Kong**
+6. **Using Kong**
 
     Quickly learn how to use Kong with the 
     [5-minute Quickstart](https://getkong.org/docs/latest/getting-started/quickstart/).

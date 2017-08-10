@@ -3,14 +3,23 @@ kind: Service
 metadata:
   name: kong-proxy
 spec:
-  type: LoadBalancer
-  loadBalancerSourceRanges:
-  - 0.0.0.0/0
+  type: NodePort
   ports:
   - name: kong-proxy
     port: 8000
     targetPort: 8000
     protocol: TCP
+  selector:
+    app: kong
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-proxy-ssl
+spec:
+  type: NodePort
+  ports:
   - name: kong-proxy-ssl
     port: 8443
     targetPort: 8443
@@ -24,13 +33,26 @@ kind: Service
 metadata:
   name: kong-admin
 spec:
-  type: LoadBalancer
-  loadBalancerSourceRanges:
-  - 0.0.0.0/0
+  type: NodePort
   ports:
   - name: kong-admin
     port: 8001
     targetPort: 8001
+    protocol: TCP
+  selector:
+    app: kong  
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-admin-ssl
+spec:
+  type: NodePort
+  ports:
+  - name: kong-admin-ssl
+    port: 8444
+    targetPort: 8444
     protocol: TCP
   selector:
     app: kong
@@ -41,7 +63,7 @@ kind: Deployment
 metadata:
   name: kong-rc
 spec:
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -55,17 +77,11 @@ spec:
           - name: KONG_DATABASE
             value: cassandra
           - name: KONG_CASSANDRA_CONTACT_POINTS
-            value: cassandra.default.svc.cluster.local
+            value: cassandra
           - name: KONG_CASSANDRA_KEYSPACE
             value: kong
           - name: KONG_CASSANDRA_REPL_FACTOR
             value: "2"
-          - name: KONG_HOST_IP
-            valueFrom:
-              fieldRef:
-                apiVersion: v1
-                fieldPath: status.podIP
-        command: [ "/bin/sh", "-c", "KONG_CLUSTER_ADVERTISE=$(KONG_HOST_IP):7946 KONG_NGINX_DAEMON='off' kong start" ]
         ports:
         - name: admin
           containerPort: 8001
@@ -76,9 +92,7 @@ spec:
         - name: proxy-ssl
           containerPort: 8443
           protocol: TCP
-        - name: surf-tcp
-          containerPort: 7946
+        - name: admin-ssl
+          containerPort: 8444
           protocol: TCP
-        - name: surf-udp
-          containerPort: 7946
-          protocol: UDP
+
