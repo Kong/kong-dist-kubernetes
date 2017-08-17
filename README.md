@@ -51,12 +51,14 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.
 
     For Cassandra, use the `cassandra.yaml` file from this repo to deploy a
-    Cassandra `Service` and a `ReplicationController` in the cluster:  
+    Cassandra `Service` and a `StatefulSet` in the cluster:  
 
     ```bash
     $ kubectl create -f cassandra.yaml
     ```
-    
+    Note: Please update the `cassandra.yaml` file for the cloud you are working
+    with.
+
     For PostgreSQL, use the `postgres.yaml` file from the kong-dist-kubernetes 
     repo to deploy a PostgreSQL `Service` and a `ReplicationController` in the
     cluster:
@@ -65,16 +67,31 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     $ kubectl create -f postgres.yaml
     ```
 
-4. **Deploy Kong**
+4. **Prepare database**
 
-    Using the `kong_<postgres|cassandra>.yaml` file from this repo, deploy
-    a Kong `Service` and a `Deployment` to the cluster created in the last step:
+    Using the `kong_migration_<postgres|cassandra>.yaml` file from this repo,
+    run the migration job, jump to step 5 if Kong backing databse is up–to–date:
+    
+    ```bash
+    $ kubectl create -f kong_migration_<postgres|cassandra>.yaml
+    ```
+    Once job completes, you can remove the pod by running following command:
+
+    ```bash
+    $ kubectl delete -f kong_migration_<postgres|cassandra>.yaml
+    ```
+
+5. **Deploy Kong**
+
+    Once migration Using the `kong_<postgres|cassandra>.yaml` file from this
+    repo, deploy Kong admin and proxy services and a `Deployment` controller to
+    the cluster created in the last step:
     
     ```bash
     $ kubectl create -f kong_<postgres|cassandra>.yaml
     ```
 
-5. **Verify your deployments**
+6. **Verify your deployments**
 
     You can now see the resources that have been deployed using `kubectl`:
 
@@ -90,11 +107,13 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     can test Kong by making the following requests:
 
     ```bash
-    $ curl <admin-ip-address>:8001
-    $ curl <proxy-ip-address>:8000
+    $ curl <kong-admin-ip-address>:8001
+    $ curl https://<admin-ssl-ip-address>:8444
+    $ curl <kong-proxy-ip-address>:8000
+    $ curl https://<kong-proxy-ssl-ip-address>:8443
     ```
 
-6. **Using Kong**
+7. **Using Kong**
 
     Quickly learn how to use Kong with the 
     [5-minute Quickstart](https://getkong.org/docs/latest/getting-started/quickstart/).

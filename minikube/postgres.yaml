@@ -10,6 +10,7 @@ spec:
     protocol: TCP
   selector:
     app: postgres
+
 ---
 apiVersion: v1
 kind: ReplicationController
@@ -42,3 +43,4 @@ spec:
       volumes:
         - name: pg-data
           emptyDir: {}
+
