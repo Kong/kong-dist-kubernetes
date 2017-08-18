@@ -18,17 +18,21 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     $ cd kong-dist-kubernetes
     ```
     If you want to run Kubernetes locally, please follow the [README](/minikube) 
-    in `minikube` subfolder.
+    and use the manifest files provided in `minikube` directory.
     
     Skip to step 3 if you have already provisioned a cluster and registered it
     with Kubernetes.
 
+    Note: Included manifest files only support Kong v0.11.x, for 0.10.x please
+    checkout the [tag 1.0.0](https://github.com/Mashape/kong-dist-kubernetes/tree/1.0.0)
+
 2.  **Deploy a GKE cluster**
     
     You need [gcloud](https://cloud.google.com/sdk/) and
-    [kubectl]https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface)
+    [kubectl](https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface)
     command-line tools installed and set upto run deployment commands.
-    Also make sure your Google Cloud account has atleast two `STATIC_ADDRESSES` available.
+    Also make sure your Google Cloud account has `STATIC_ADDRESSES` available
+    for the external access of Kong services.
 
     Using the `cluster.yaml` file from this repo, deploy a
     GKE cluster. Provide the following information before deploying:
@@ -83,9 +87,9 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
 5. **Deploy Kong**
 
-    Once migration Using the `kong_<postgres|cassandra>.yaml` file from this
+    Using the `kong_<postgres|cassandra>.yaml` file from this
     repo, deploy Kong admin and proxy services and a `Deployment` controller to
-    the cluster created in the last step:
+    the cluster:
     
     ```bash
     $ kubectl create -f kong_<postgres|cassandra>.yaml
@@ -96,11 +100,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     You can now see the resources that have been deployed using `kubectl`:
 
     ```bash
-    $ kubectl get rc
-    $ kubectl get deployment
-    $ kubectl get pods
-    $ kubectl get services
-    $ kubectl get logs <pod-name>
+    $ kubectl get all
     ```
 
     Once the `EXTERNAL_IP` is available for Kong Proxy and Admin services, you

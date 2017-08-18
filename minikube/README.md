@@ -15,16 +15,18 @@ Kong can easily be provisioned to Minikube cluster using the following steps:
     By now, you have provisioned a Kubernetes managed cluster locally.
 
 2. **Deploy a Kong supported database**
-  
+
     Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.
 
     For Cassandra, use the `cassandra.yaml` file from this repo to deploy a
-    Cassandra `Service` and a `ReplicationController` in the cluster:  
+    Cassandra `Service` and a `StatefulSet` in the cluster:
 
     ```bash
     $ kubectl create -f cassandra.yaml
     ```
-    
+    Note: Please update the `cassandra.yaml` file for the cloud you are working
+    with.
+
     For PostgreSQL, use the `postgres.yaml` file from the kong-dist-kubernetes 
     repo to deploy a PostgreSQL `Service` and a `ReplicationController` in the
     cluster:
@@ -62,15 +64,11 @@ Kong can easily be provisioned to Minikube cluster using the following steps:
     You can now see the resources that have been deployed using `kubectl`:
 
     ```bash
-    $ kubectl get rc
-    $ kubectl get deployment
-    $ kubectl get pods
-    $ kubectl get services
-    $ kubectl get logs <pod-name>
+    $ kubectl get all
     ```
 
-    Once the Kong services are started, you
-    can test Kong by making the following requests:
+    Once the Kong services are started, you can test Kong by making the
+    following requests:
 
     ```bash
     $ curl $(minikube service --url kong-admin)
