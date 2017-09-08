@@ -3,7 +3,9 @@ kind: Service
 metadata:
   name: kong-proxy
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
   ports:
   - name: kong-proxy
     port: 8000
@@ -18,7 +20,9 @@ kind: Service
 metadata:
   name: kong-proxy-ssl
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
   ports:
   - name: kong-proxy-ssl
     port: 8443
@@ -33,7 +37,9 @@ kind: Service
 metadata:
   name: kong-admin
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
   ports:
   - name: kong-admin
     port: 8001
@@ -43,12 +49,13 @@ spec:
     app: kong  
 
 ---
-apiVersion: v1
 kind: Service
 metadata:
   name: kong-admin-ssl
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
   ports:
   - name: kong-admin-ssl
     port: 8444
