@@ -89,6 +89,14 @@ spec:
             value: kong
           - name: KONG_CASSANDRA_REPL_FACTOR
             value: "2"
+          - name: KONG_PROXY_ACCESS_LOG
+            value: "/dev/stdout"
+          - name: KONG_ADMIN_ACCESS_LOG
+            value: "/dev/stdout"
+          - name: KONG_PROXY_ERROR_LOG
+            value: "/dev/stderr"
+          - name: KONG_ADMIN_ERROR_LOG
+            value: "/dev/stderr"  
         ports:
         - name: admin
           containerPort: 8001

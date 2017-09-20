@@ -74,8 +74,6 @@ spec:
       - name: kong
         image: kong
         env:
-          - name: KONG_NGINX_DAEMON
-            value: 'off'
           - name: KONG_DATABASE
             value: cassandra
           - name: KONG_CASSANDRA_CONTACT_POINTS
@@ -86,6 +84,14 @@ spec:
             value: "2"
           - name: KONG_DB_UPDATE_PROPAGATION
             value: "2"
+          - name: KONG_PROXY_ACCESS_LOG
+            value: "/dev/stdout"
+          - name: KONG_ADMIN_ACCESS_LOG
+            value: "/dev/stdout"
+          - name: KONG_PROXY_ERROR_LOG
+            value: "/dev/stderr"
+          - name: KONG_ADMIN_ERROR_LOG
+            value: "/dev/stderr"      
         ports:
         - name: admin
           containerPort: 8001
