@@ -49,6 +49,7 @@ spec:
     app: kong  
 
 ---
+apiVersion: v1
 kind: Service
 metadata:
   name: kong-admin-ssl
