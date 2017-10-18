@@ -71,6 +71,12 @@ spec:
         app: kong
     spec:
       containers:
+      - name: httpbin
+        image: shashiranjan84/httpbin
+        ports:
+        - name: admin
+          containerPort: 9000
+          protocol: TCP
       - name: kong
         image: kong
         env:
