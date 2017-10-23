@@ -91,7 +91,7 @@ spec:
           - name: KONG_PROXY_ERROR_LOG
             value: "/dev/stderr"
           - name: KONG_ADMIN_ERROR_LOG
-            value: "/dev/stderr" 
+            value: "/dev/stderr"
         ports:
         - name: admin
           containerPort: 8001

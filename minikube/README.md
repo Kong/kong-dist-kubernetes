@@ -49,10 +49,10 @@ Kong can easily be provisioned to Minikube cluster using the following steps:
     $ kubectl delete -f kong_migration_<postgres|cassandra>.yaml
     ```
 
-4. **Deploy Kong**
+4. **Sidecar deployment of Kong with httpbin**
 
     Once migration Using the `kong_<postgres|cassandra>.yaml` file from this
-    repo, deploy Kong admin and proxy services and a `Deployment` controller to
+    repo, deploy httpbin, Kong admin and proxy services and a `Deployment` controller to
     the cluster created in the last step:
     
     ```bash
@@ -78,6 +78,20 @@ Kong can easily be provisioned to Minikube cluster using the following steps:
     It may take up to 3 minutes for all services to come up.
 
 6. **Using Kong**
+
+    Add `httpbin` as an API:
+
+    ```bash
+        curl -i -X POST $(minikube service --url kong-admin)/apis \
+        -d "name=test" -d "uris=/test" \
+        -d "upstream_url=http://localhost:9000"
+    ```
+
+   Test the API:
+
+   ```bash
+      curl $(minikube service --url kong-proxy)/test/headers
+   ```
 
     Quickly learn how to use Kong with the 
     [5-minute Quickstart](https://getkong.org/docs/latest/getting-started/quickstart/).
