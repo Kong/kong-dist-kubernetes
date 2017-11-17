@@ -5,7 +5,7 @@
 [![Mailing List][mailing-list-badge]][mailing-list-url]
 [![Gitter Badge][gitter-badge]][gitter-url]
 
-[![][kong-logo]][website-url]
+[![][kong-logo]][kong-url]
 
 Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
@@ -14,7 +14,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     Download or clone the following repo:
 
     ```bash
-    $ git clone git@github.com:Mashape/kong-dist-kubernetes.git
+    $ git clone git@github.com:Kong/kong-dist-kubernetes.git
     $ cd kong-dist-kubernetes
     ```
     If you want to run Kubernetes locally, please follow the [README](/minikube)
@@ -24,13 +24,14 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     with Kubernetes.
 
     Note: Included manifest files only support Kong v0.11.x, for 0.10.x please
-    checkout the [tag 1.0.0](https://github.com/Mashape/kong-dist-kubernetes/tree/1.0.0)
+    checkout the [tag 1.0.0](https://github.com/Kong/kong-dist-kubernetes/tree/1.0.0)
+
 
 2.  **Deploy a GKE cluster**
 
     You need [gcloud](https://cloud.google.com/sdk/) and
     [kubectl](https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface)
-    command-line tools installed and set upto run deployment commands.
+    command-line tools installed and configured to run deployment commands.
     Also make sure your Google Cloud account has `STATIC_ADDRESSES` available
     for the external access of Kong services.
 
@@ -45,6 +46,12 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     ```bash
     $ gcloud deployment-manager deployments \
         create cluster --config cluster.yaml
+    ```
+
+    Fetch credentials for above created cluster
+
+    ```bash
+    $ gcloud container clusters get-credentials NAME [--zone=ZONE, -z ZONE] [GCLOUD_WIDE_FLAG …]
     ```
 
     By now, you have provisioned a Kubernetes managed cluster.
@@ -136,7 +143,8 @@ manage the destruction of these resources when deleting or updating a
 
 Support, Demo, Training, API Certifications and Consulting available at http://getkong.org/enterprise.
 
-[kong-logo]: http://i.imgur.com/4jyQQAZ.png
+[kong-url]: https://konghq.com/
+[kong-logo]: https://cl.ly/030V1u02090Q/unnamed.png
 [website-url]: https://getkong.org/
 [website-badge]: https://img.shields.io/badge/GETKong.org-Learn%20More-43bf58.svg
 [documentation-url]: https://getkong.org/docs/
