@@ -10,16 +10,16 @@
 Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
 1. **Initial setup**
-  
+
     Download or clone the following repo:
 
     ```bash
     $ git clone git@github.com:Mashape/kong-dist-kubernetes.git
     $ cd kong-dist-kubernetes
     ```
-    If you want to run Kubernetes locally, please follow the [README](/minikube) 
+    If you want to run Kubernetes locally, please follow the [README](/minikube)
     and use the manifest files provided in `minikube` directory.
-    
+
     Skip to step 3 if you have already provisioned a cluster and registered it
     with Kubernetes.
 
@@ -27,7 +27,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     checkout the [tag 1.0.0](https://github.com/Mashape/kong-dist-kubernetes/tree/1.0.0)
 
 2.  **Deploy a GKE cluster**
-    
+
     You need [gcloud](https://cloud.google.com/sdk/) and
     [kubectl](https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface)
     command-line tools installed and set upto run deployment commands.
@@ -36,14 +36,14 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
     Using the `cluster.yaml` file from this repo, deploy a
     GKE cluster. Provide the following information before deploying:
-    
+
     1. Desired cluster name
     2. Zone in which to run the cluster
     3. A basicauth username and password for authenticating the access to the
        cluster
 
     ```bash
-    $ gcloud deployment-manager deployments \ 
+    $ gcloud deployment-manager deployments \
         create cluster --config cluster.yaml
     ```
 
@@ -51,11 +51,11 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
 
 3. **Deploy a Kong supported database**
-  
+
     Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.
 
     For Cassandra, use the `cassandra.yaml` file from this repo to deploy a
-    Cassandra `Service` and a `StatefulSet` in the cluster:  
+    Cassandra `Service` and a `StatefulSet` in the cluster:
 
     ```bash
     $ kubectl create -f cassandra.yaml
@@ -63,7 +63,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     Note: Please update the `cassandra.yaml` file for the cloud you are working
     with.
 
-    For PostgreSQL, use the `postgres.yaml` file from the kong-dist-kubernetes 
+    For PostgreSQL, use the `postgres.yaml` file from the kong-dist-kubernetes
     repo to deploy a PostgreSQL `Service` and a `ReplicationController` in the
     cluster:
 
@@ -75,7 +75,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
     Using the `kong_migration_<postgres|cassandra>.yaml` file from this repo,
     run the migration job, jump to step 5 if Kong backing databse is up–to–date:
-    
+
     ```bash
     $ kubectl create -f kong_migration_<postgres|cassandra>.yaml
     ```
@@ -90,7 +90,7 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     Using the `kong_<postgres|cassandra>.yaml` file from this
     repo, deploy Kong admin and proxy services and a `Deployment` controller to
     the cluster:
-    
+
     ```bash
     $ kubectl create -f kong_<postgres|cassandra>.yaml
     ```
@@ -115,8 +115,13 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
 
 7. **Using Kong**
 
-    Quickly learn how to use Kong with the 
+    Quickly learn how to use Kong with the
     [5-minute Quickstart](https://getkong.org/docs/latest/getting-started/quickstart/).
+
+## Charts
+
+If you want to manage Kong installation through Helm Charts, please follow
+the [README](/charts/kong/README.md).
 
 ## Important Note
 
