@@ -30,7 +30,7 @@ kong:
       contactPoints: cassandra
       port: 9042
       keyspace: kong
-      replcation: 2
+      replication: 2
   resources: {}
     # If you want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.

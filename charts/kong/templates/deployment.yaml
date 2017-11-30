@@ -48,7 +48,7 @@ spec:
           - name: KONG_CASSANDRA_KEYSPACE
             value: {{ .Values.kong.database.cassandra.keyspace}}
           - name: KONG_CASSANDRA_REPL_FACTOR
-            value: {{ .Values.kong.database.cassandra.replcation | quote }}
+            value: {{ .Values.kong.database.cassandra.replication | quote }}
         {{ else }}
           - name: KONG_PG_DATABASE
             value: {{ .Values.kong.database.postgres.database }}
