@@ -2,7 +2,7 @@
 {{ template "kong.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
 
 To connect from outside the K8s cluster:
-   {{- if contains "LoadBalancer" .Values.kong.proxy.type }}
+   {{- if contains "LoadBalancer" .Values.kong.admin.type }}
      HOST=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.status.loadBalancer.ingress.ip}')
      PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.spec.ports[0].nodePort}')
      SSL_PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.spec.ports[1].nodePort}')
@@ -12,7 +12,7 @@ To connect from outside the K8s cluster:
      PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.spec.ports[0].nodePort}')
      SSL_PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-admin -o jsonpath='{.spec.ports[1].nodePort}')
 
-   {{- else if contains "ClusterIP" .Values.service.type }}
+   {{- else if contains "ClusterIP" .Values.kong.admin.type }}
      HOST=127.0.0.1
 
      # Execute the following commands to route the connection to Admin port:
@@ -40,7 +40,7 @@ To connect from outside the K8s cluster:
      PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-proxy -o jsonpath='{.spec.ports[0].nodePort}')
      SSL_PORT=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "kong.fullname" . }}-proxy -o jsonpath='{.spec.ports[1].nodePort}')
 
-   {{- else if contains "ClusterIP" .Values.service.type }}
+   {{- else if contains "ClusterIP" .Values.kong.proxy.type }}
      HOST=127.0.0.1
 
      # Execute the following commands to route the connection to proxy SSL port:
