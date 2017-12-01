@@ -11,12 +11,14 @@ kong:
     containerPort: 8001
     containerSSLPort: 8444
     type: NodePort #Options: NodePort, ClusterIP, LoadBalancer
+    loadBalancerIP: null #Set this to an IP if you want your LoadBalancer to reuse an existing IP
   proxy:
     servicePort: 8000
     serviceSSLPort: 8443
     containerPort: 8000
     containerSSLPort: 8443
     type: NodePort #Options: NodePort, ClusterIP, LoadBalancer
+    loadBalancerIP: null #Set this to an IP if you want your LoadBalancer to reuse an existing IP
   logLevel: debug #Options: debug, info, notice, warn, error, crit, alert, emerg
   database:
     useCassandra: false
