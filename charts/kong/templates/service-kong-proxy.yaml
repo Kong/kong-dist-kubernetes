@@ -4,6 +4,9 @@ metadata:
   name: {{ template "kong.fullname" . }}-proxy
 spec:
   type: {{ .Values.kong.proxy.type }}
+  {{- if and (eq .Values.kong.proxy.type "LoadBalancer") .Values.kong.proxy.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.kong.proxy.loadBalancerIP }}
+  {{- end }}
   ports:
   - name: kong-proxy
     port: {{ .Values.kong.proxy.servicePort }}
@@ -14,4 +17,4 @@ spec:
     targetPort: {{ .Values.kong.proxy.containerSSLPort }}
     protocol: TCP
   selector:
-    app: "{{ template "kong.fullname" . }}"
+    app: {{ template "kong.fullname" . }}

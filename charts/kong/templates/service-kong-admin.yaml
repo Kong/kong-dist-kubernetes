@@ -4,6 +4,9 @@ metadata:
   name: {{ template "kong.fullname" . }}-admin
 spec:
   type: {{ .Values.kong.admin.type }}
+  {{- if and (eq .Values.kong.admin.type "LoadBalancer") .Values.kong.admin.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.kong.admin.loadBalancerIP }}
+  {{- end }}
   ports:
   - name: kong-admin
     port: {{ .Values.kong.admin.servicePort }}
@@ -14,4 +17,4 @@ spec:
     targetPort: {{ .Values.kong.admin.containerSSLPort }}
     protocol: TCP
   selector:
-    app: "{{ template "kong.fullname" . }}"
+    app: {{ template "kong.fullname" . }}
