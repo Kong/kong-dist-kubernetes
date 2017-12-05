@@ -12,6 +12,7 @@ kong:
     containerSSLPort: 8444
     type: NodePort #Options: NodePort, ClusterIP, LoadBalancer
     loadBalancerIP: null #Set this to an IP if you want your LoadBalancer to reuse an existing IP
+    useTLS: true
   proxy:
     servicePort: 8000
     serviceSSLPort: 8443
@@ -19,6 +20,7 @@ kong:
     containerSSLPort: 8443
     type: NodePort #Options: NodePort, ClusterIP, LoadBalancer
     loadBalancerIP: null #Set this to an IP if you want your LoadBalancer to reuse an existing IP
+    useTLS: true
   logLevel: debug #Options: debug, info, notice, warn, error, crit, alert, emerg
   database:
     useCassandra: false
@@ -33,6 +35,12 @@ kong:
       port: 9042
       keyspace: kong
       replication: 2
+  runMigrations: true
+  customConfig:
+    # If you want to specify Additional Kong configurations, you can define them in
+    # here as yaml list.
+    # Kong configurations guide https://getkong.org/docs/latest/configuration/
+    nginx_worker_processes: auto
   resources: {}
     # If you want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.

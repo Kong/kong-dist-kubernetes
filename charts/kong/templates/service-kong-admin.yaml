@@ -8,13 +8,16 @@ spec:
   loadBalancerIP: {{ .Values.kong.admin.loadBalancerIP }}
   {{- end }}
   ports:
-  - name: kong-admin
-    port: {{ .Values.kong.admin.servicePort }}
-    targetPort: {{ .Values.kong.admin.containerPort }}
-    protocol: TCP
+  {{- if .Values.kong.admin.useTLS }}
   - name: kong-admin-ssl
-    port: {{ .Values.kong.admin.serviceSSLPort }}
-    targetPort: {{ .Values.kong.admin.containerSSLPort }}
+    port: {{ default 8444 .Values.kong.admin.serviceSSLPort }}
+    targetPort: {{ default 8444 .Values.kong.admin.containerSSLPort }}
     protocol: TCP
+  {{- else }}
+  - name: kong-admin
+    port: {{ default 8001 .Values.kong.admin.servicePort }}
+    targetPort: {{ default 8001 .Values.kong.admin.containerPort }}
+    protocol: TCP
+  {{- end }}
   selector:
     app: {{ template "kong.fullname" . }}
