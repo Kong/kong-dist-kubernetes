@@ -1,5 +1,13 @@
 Kong can easily be provisioned to Minikube cluster using the following steps:
 
+1. Install [`VirtualBox`](https://www.virtualbox.org/wiki/Downloads)
+
+   Kubernetes needs a VM within which to run. VirtualBox is one of the hypervisors that Minikube supports and works across OS X, Linux, and Windows.
+
+1. Install [`minikube`](https://github.com/kubernetes/minikube)
+
+    Minikube is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop for users looking to try out Kubernetes or develop with it day-to-day.
+
 1.  **Deploy Kubernetes via Minikube**
 
     You need [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) and
