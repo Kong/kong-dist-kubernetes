@@ -23,7 +23,7 @@ kong:
     useTLS: true
   logLevel: debug #Options: debug, info, notice, warn, error, crit, alert, emerg
   database:
-    useCassandra: false
+    type: postgres #Options: postgres, cassandra
     postgres:
       username: kong
       database: kong

@@ -61,7 +61,7 @@ their default values. For [`Cassandra`](./charts/cassandra/README.md) and
 ### Database-specific parameters
 
 Kong has a choice of either Postgres or Cassandra as a backend datatstore.
-This chart allows you to choose either of them with the `kong.database.useCassandra`
+This chart allows you to choose either of them with the `kong.database.type`
 parameter.  Postgres is chosen by default.
 
 Additionally, this chart allows you to use your own database or spin up a new
@@ -74,7 +74,7 @@ Postgres is enabled by default.
 | -----------------------------------    | --------------------------------------------------------------------   | -------------------   |
 | cassandra.enabled                      | Spin up a new cassandra cluster for Kong                               | `false`               |
 | postgres.enabled                       | Spin up a new postgres instance for Kong                               | `true `               |
-| kong.database.useCassandra             | Set to `true` to use Cassandra as Kong's database                      | `false`               |
+| kong.database.type                     | Choose either `postgres` or `cassandra`                                | `postgres`            |
 | kong.database.postgres.username        | Postgres username                                                      | `kong`                |
 | kong.database.postgres.database        | Postgres database name                                                 | `kong`                |
 | kong.database.postgres.password        | Postgres database password                                             | `kong`                |
