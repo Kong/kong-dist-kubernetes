@@ -61,13 +61,13 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: kong-rc
+  name: kong
 spec:
   replicas: 3
   template:
     metadata:
       labels:
-        name: kong-rc
+        name: kong
         app: kong
     spec:
       containers:
@@ -99,4 +99,3 @@ spec:
         - name: admin-ssl
           containerPort: 8444
           protocol: TCP
-
