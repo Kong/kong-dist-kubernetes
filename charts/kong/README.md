@@ -19,7 +19,17 @@ $ git clone git@github.com:Kong/kong-dist-kubernetes.git
 $ cd ./kong-dist-kubernetes/charts
 ```
 
-2. Install the Kong chart
+2. Install missing dependencies with helm dep
+
+```bash
+$ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+$ helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
+$ helm dep list kong
+$ helm dep update kong
+$ helm dep build kong
+```
+
+3. Install the Kong chart
 ```bash
 $ helm install --name <release_name> kong
 ```
@@ -47,7 +57,7 @@ their default values. For [`Cassandra`](./charts/cassandra/README.md) and
 | kong.admin.containerSSLPort            | Secure TCP port on which Kong app listens for admin traffic            | `8444`                |
 | kong.admin.type                        | k8s service type exposing ports, e.g. `NodePort`                       | `NodePort`            |
 | kong.admin.loadBalancerIP              | Will reuse an existing ingress static IP for the admin service         | `null`                |
-| kong.proxy.useTLS                      | Secure admin traffic                                                   | `true`                |
+| kong.admin.useTLS                      | Secure admin traffic                                                   | `true`                |
 | kong.proxy.servicePort                 | TCP port on which the Kong proxy service is exposed                    | `8000`                |
 | kong.proxy.serviceSSLPort              | Secure TCP port on which the Kong Proxy Service is exposed             | `8443`                |
 | kong.proxy.containerPort               | TCP port on which the Kong app listens for Proxy traffic               | `8000`                |
@@ -67,7 +77,7 @@ parameter.  Postgres is chosen by default.
 Additionally, this chart allows you to use your own database or spin up a new
 instance by using the `postgres.enabled` or `cassandra.enabled` parameters.
 Enabling both will create both databases in your cluster, but only one
-will be used by Kong based on the `kong.database.useCassandra` parameter.
+will be used by Kong based on the `kong.database.type` parameter.
 Postgres is enabled by default.
 
 | Parameter                              | Description                                                            | Default               |
