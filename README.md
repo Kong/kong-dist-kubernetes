@@ -125,10 +125,9 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     Quickly learn how to use Kong with the
     [5-minute Quickstart](https://getkong.org/docs/latest/getting-started/quickstart/).
 
-## Charts
+## Helm Chart
 
-If you want to manage Kong installation through Helm Charts, please follow
-the [README](/charts/kong/README.md).
+You can install Kong using Chart available on [Kubeapps Hub](https://hub.kubeapps.com/charts/stable/kong).
 
 ## Important Note
 
