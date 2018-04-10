@@ -23,8 +23,8 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     Skip to step 3 if you have already provisioned a cluster and registered it
     with Kubernetes.
 
-    Note: Included manifest files only support Kong v0.11.x, for 0.10.x please
-    checkout the [tag 1.0.0](https://github.com/Kong/kong-dist-kubernetes/tree/1.0.0)
+    Note: Included manifest files only support Kong v0.13.x, for older versions please checkout
+    relevant [tag](https://github.com/Kong/kong-dist-kubernetes/tags) and modify the manifest files with Kong image which you want to try.
 
 
 2.  **Deploy a GKE cluster**
