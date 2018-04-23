@@ -20,6 +20,10 @@ Kong can easily be provisioned to Kubernetes cluster using the following steps:
     If you want to run Kubernetes locally, please follow the [README](/minikube)
     and use the manifest files provided in `minikube` directory.
 
+    Kong Enterprise Edition trial users should follow the additional steps in
+    the [README](/ee-trial) under the `ee-trial` directory, and use the
+    manifests there in steps 4 and 5.
+
     Skip to step 3 if you have already provisioned a cluster and registered it
     with Kubernetes.
 
