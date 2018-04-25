@@ -2,8 +2,7 @@
 
 [![Website][website-badge]][website-url]
 [![Documentation][documentation-badge]][documentation-url]
-[![Mailing List][mailing-list-badge]][mailing-list-url]
-[![Gitter Badge][gitter-badge]][gitter-url]
+[![Discussion][discussion-badge]][discussion-url]
 
 [![][kong-logo]][kong-url]
 
@@ -147,13 +146,11 @@ manage the destruction of these resources when deleting or updating a
 Support, Demo, Training, API Certifications and Consulting available at http://getkong.org/enterprise.
 
 [kong-url]: https://konghq.com/
-[kong-logo]: https://cl.ly/030V1u02090Q/unnamed.png
+[kong-logo]: https://konghq.com/wp-content/uploads/2017/10/kong-cover@2x-1.png
 [website-url]: https://getkong.org/
 [website-badge]: https://img.shields.io/badge/GETKong.org-Learn%20More-43bf58.svg
 [documentation-url]: https://getkong.org/docs/
 [documentation-badge]: https://img.shields.io/badge/Documentation-Read%20Online-green.svg
-[gitter-url]: https://gitter.im/Mashape/kong
-[gitter-badge]: https://img.shields.io/badge/Gitter-Join%20Chat-blue.svg
-[mailing-list-badge]: https://img.shields.io/badge/Email-Join%20Mailing%20List-blue.svg
-[mailing-list-url]: https://groups.google.com/forum/#!forum/konglayer
+[discussion-badge]: https://img.shields.io/badge/Discuss-Join%20Kong%20Nation-blue.svg
+[discussion-url]: https://discuss.konghq.com/
 
