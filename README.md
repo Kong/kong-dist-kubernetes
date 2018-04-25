@@ -147,7 +147,7 @@ Support, Demo, Training, API Certifications and Consulting available at http://g
 
 [kong-url]: https://konghq.com/
 [kong-logo]: https://konghq.com/wp-content/uploads/2017/10/kong-cover@2x-1.png
-[website-url]: https://getkong.org/
+[website-url]: https://konghq.com/
 [website-badge]: https://img.shields.io/badge/GETKong.org-Learn%20More-43bf58.svg
 [documentation-url]: https://getkong.org/docs/
 [documentation-badge]: https://img.shields.io/badge/Documentation-Read%20Online-green.svg
