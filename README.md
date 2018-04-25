@@ -4,133 +4,10 @@
 [![Documentation][documentation-badge]][documentation-url]
 [![Discussion][discussion-badge]][discussion-url]
 
-[![][kong-logo]][kong-url]
+[![][kong-logo]][website-url]
 
-Kong can easily be provisioned to Kubernetes cluster using the following steps:
-
-1. **Initial setup**
-
-    Download or clone the following repo:
-
-    ```bash
-    $ git clone git@github.com:Kong/kong-dist-kubernetes.git
-    $ cd kong-dist-kubernetes
-    ```
-    If you want to run Kubernetes locally, please follow the [README](/minikube)
-    and use the manifest files provided in `minikube` directory.
-
-    Kong Enterprise Edition trial users should follow the additional steps in
-    the [README](/ee-trial) under the `ee-trial` directory, and use the
-    manifests there in steps 4 and 5.
-
-    Skip to step 3 if you have already provisioned a cluster and registered it
-    with Kubernetes.
-
-    Note: Included manifest files only support Kong v0.13.x, for older versions please checkout
-    relevant [tag](https://github.com/Kong/kong-dist-kubernetes/tags) and modify the manifest files with Kong image which you want to try.
-
-
-2.  **Deploy a GKE cluster**
-
-    You need [gcloud](https://cloud.google.com/sdk/) and
-    [kubectl](https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface)
-    command-line tools installed and configured to run deployment commands.
-    Also make sure your Google Cloud account has `STATIC_ADDRESSES` available
-    for the external access of Kong services.
-
-    Using the `cluster.yaml` file from this repo, deploy a
-    GKE cluster. Provide the following information before deploying:
-
-    1. Desired cluster name
-    2. Zone in which to run the cluster
-    3. A basicauth username and password for authenticating the access to the
-       cluster
-
-    ```bash
-    $ gcloud deployment-manager deployments \
-        create cluster --config cluster.yaml
-    ```
-
-    Fetch credentials for above created cluster
-
-    ```bash
-    $ gcloud container clusters get-credentials NAME [--zone=ZONE, -z ZONE] [GCLOUD_WIDE_FLAG …]
-    ```
-
-    By now, you have provisioned a Kubernetes managed cluster.
-
-
-3. **Deploy a Kong supported database**
-
-    Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.
-
-    For Cassandra, use the `cassandra.yaml` file from this repo to deploy a
-    Cassandra `Service` and a `StatefulSet` in the cluster:
-
-    ```bash
-    $ kubectl create -f cassandra.yaml
-    ```
-    Note: Please update the `cassandra.yaml` file for the cloud you are working
-    with.
-
-    For PostgreSQL, use the `postgres.yaml` file from the kong-dist-kubernetes
-    repo to deploy a PostgreSQL `Service` and a `ReplicationController` in the
-    cluster:
-
-    ```bash
-    $ kubectl create -f postgres.yaml
-    ```
-
-4. **Prepare database**
-
-    Using the `kong_migration_<postgres|cassandra>.yaml` file from this repo,
-    run the migration job, jump to step 5 if Kong backing databse is up–to–date:
-
-    ```bash
-    $ kubectl create -f kong_migration_<postgres|cassandra>.yaml
-    ```
-    Once job completes, you can remove the pod by running following command:
-
-    ```bash
-    $ kubectl delete -f kong_migration_<postgres|cassandra>.yaml
-    ```
-
-5. **Deploy Kong**
-
-    Using the `kong_<postgres|cassandra>.yaml` file from this
-    repo, deploy Kong admin and proxy services and a `Deployment` controller to
-    the cluster:
-
-    ```bash
-    $ kubectl create -f kong_<postgres|cassandra>.yaml
-    ```
-
-6. **Verify your deployments**
-
-    You can now see the resources that have been deployed using `kubectl`:
-
-    ```bash
-    $ kubectl get all
-    ```
-
-    Once the `EXTERNAL_IP` is available for Kong Proxy and Admin services, you
-    can test Kong by making the following requests:
-
-    ```bash
-    $ curl <kong-admin-ip-address>:8001
-    $ curl https://<admin-ssl-ip-address>:8444
-    $ curl <kong-proxy-ip-address>:8000
-    $ curl https://<kong-proxy-ssl-ip-address>:8443
-    ```
-
-7. **Using Kong**
-
-    Quickly learn how to use Kong with the
-    [5-minute Quickstart](https://getkong.org/docs/latest/getting-started/quickstart/).
-
-## Helm Chart
-
-You can install Kong using Chart available on [Kubeapps Hub](https://hub.kubeapps.com/charts/stable/kong).
+Kong Community Edition (CE) or Kong Enterprise Edition (EE) can easily be provisioned 
+on a Kubernetes cluster - see [Kong on Kubernetes](https://getkong.org/install/kubernetes/) for all the details.
 
 ## Important Note
 
@@ -140,12 +17,12 @@ important to be aware that deleting `ReplicationController` Kubernetes objects
 manage the destruction of these resources when deleting or updating a
 `ReplicationController` in your configuration.
 
+## Kong Enterprise Edition
 
-## Enterprise Support
+Kong Enterprise is our powerful offering for larger organizations in need of security, monitoring, 
+compliance, developer onboarding, higher performance, granular access and a dashboard to manage 
+Kong easily. Learn more at https://konghq.com/kong-enterprise-edition/.
 
-Support, Demo, Training, API Certifications and Consulting available at http://getkong.org/enterprise.
-
-[kong-url]: https://konghq.com/
 [kong-logo]: https://konghq.com/wp-content/uploads/2017/10/kong-cover@2x-1.png
 [website-url]: https://konghq.com/
 [website-badge]: https://img.shields.io/badge/GETKong.org-Learn%20More-43bf58.svg
