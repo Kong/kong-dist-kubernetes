@@ -17,5 +17,5 @@ spec:
             value: kong
           - name: KONG_PG_HOST
             value: postgres.default.svc.cluster.local
-        command: [ "/bin/sh", "-c", "kong migrations up" ]
+        command: [ "/bin/sh", "-c", "kong migrations bootstrap" ]
       restartPolicy: Never

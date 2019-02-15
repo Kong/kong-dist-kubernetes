@@ -19,5 +19,5 @@ spec:
             value: cassandra
           - name: KONG_CASSANDRA_KEYSPACE
             value: kong
-        command: [ "/bin/sh", "-c", "kong migrations up" ]
+        command: [ "/bin/sh", "-c", "kong migrations bootstrap" ]
       restartPolicy: Never
