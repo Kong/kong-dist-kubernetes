@@ -65,7 +65,7 @@ spec:
       serviceAccountName: kong
       initContainers:
       - name: kong-migration
-        image: kong:1.1rc1
+        image: kong
         imagePullPolicy: IfNotPresent
         env:
           - name: KONG_DATABASE
@@ -77,7 +77,7 @@ spec:
         command: [ "kong", "migrations", "bootstrap" ]
       containers:
       - name: kong-control-plane
-        image: kong:1.1rc1
+        image: kong
         imagePullPolicy: IfNotPresent
         env:
           - name: KONG_DATABASE

@@ -16,12 +16,14 @@ spec:
     type: RollingUpdate
   template:
     metadata:
+      annotations:
+        k8s.konghq.com/sidecar-inject: "false"
       labels:
         app: kong-ingress-data-plane
     spec:
       containers:
       - name: kong-ingress-data-plane
-        image: kong:1.1rc1
+        image: kong
         imagePullPolicy: IfNotPresent
         env:
           - name: KONG_PG_PASSWORD

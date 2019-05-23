@@ -39,8 +39,8 @@ curl localhost:8001
 
 Access the proxy
 ```
-export HOST=`kubectl get nodes --namespace default -o jsonpath='{.items[0].status.addresses[0].address}'`
-export PROXY_PORT=`kubectl get svc --namespace kong kong-ingress-data-plane -o jsonpath='{.spec.ports[0].nodePort}'`
+export HOST=$(kubectl get nodes --namespace default -o jsonpath='{.items[0].status.addresses[0].address}')
+export PROXY_PORT=$(kubectl get svc --namespace kong kong-ingress-data-plane -o jsonpath='{.spec.ports[0].nodePort}')
 curl $HOST:$PROXY_PORT
 ```
 
