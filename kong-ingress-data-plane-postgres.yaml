@@ -72,11 +72,11 @@ spec:
   type: NodePort
   ports:
   - name: kong-proxy-http
-    port: 80
+    port: 8000
     targetPort: 8000
     protocol: TCP
   - name: kong-proxy-https
-    port: 443
+    port: 8443
     targetPort: 8443
     protocol: TCP
   - name: http
