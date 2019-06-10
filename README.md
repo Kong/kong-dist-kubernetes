@@ -33,7 +33,7 @@ make run_<postgres|cassandra>
 
 Expose the admin api
 ```
-kubectl port-forward -n kong svc/kong-control-plane 8001:80
+kubectl port-forward -n kong svc/kong-control-plane 8001:8001
 curl localhost:8001
 ```
 
