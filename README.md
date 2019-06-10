@@ -44,9 +44,10 @@ export PROXY_PORT=$(kubectl get svc --namespace kong kong-ingress-data-plane -o 
 curl $HOST:$PROXY_PORT
 ```
 
-If using dbless/declarative the `declarative.yaml` file is mounted as a config map onto the Kong containers. We use the md5sum of `declarative.yaml`
-file to update the deployment but per [Facilitate ConfigMap rollouts / management](https://github.com/kubernetes/kubernetes/issues/22368) for production
-setups one would might be best to use helm, kustomize or [reloader](https://github.com/stakater/reloader).
+If using dbless/declarative the `declarative.yaml` file is mounted as a config
+map onto the Kong containers. We use the md5sum of `declarative.yaml` file to
+update the deployment but per [Facilitate ConfigMap rollouts / management](https://github.com/kubernetes/kubernetes/issues/22368) for production setups
+one would might be best to use helm, kustomize or [reloader](https://github.com/stakater/reloader).
 
 Cleanup
 ```
