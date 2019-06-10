@@ -1,0 +1,16 @@
+_format_version: "1.1"
+
+services:
+- name: my-service
+  url: https://example.com
+  plugins:
+  - name: key-auth
+  routes:
+  - name: my-route
+    paths:
+    - /
+
+consumers:
+- username: my-user
+  keyauth_credentials:
+  - key: my-key
