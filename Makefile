@@ -7,7 +7,7 @@ run_dbless: k8s_setup
 	-kubectl create configmap kongdeclarative -n kong --from-file=declarative.yaml
 	kubectl create configmap kongdeclarative -n kong --from-file=declarative.yaml -o yaml --dry-run | kubectl replace -n kong -f -
 	kubectl apply -f kong-dbless.yaml
-	kubectl patch deployment kong-control-plane -n kong -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"declarative\":\"`md5sum declarative.yaml | awk '{ print $$1 }'`\"}}}}}}"
+	kubectl patch deployment kong-dbless -n kong -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"declarative\":\"`md5sum declarative.yaml | awk '{ print $$1 }'`\"}}}}}}"
 
 run_cassandra: k8s_setup
 	kubectl apply -f cassandra-service.yaml
