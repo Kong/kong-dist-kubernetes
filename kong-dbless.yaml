@@ -16,10 +16,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      annotations:
-        k8s.konghq.com/sidecar-inject: "false"
-        prometheus.io/port: "8001"
-        prometheus.io/scrape: "true"
       labels:
         app: kong-dbless
     spec:
@@ -39,7 +35,7 @@ spec:
           - name: KONG_ADMIN_ERROR_LOG
             value: /dev/stderr
           - name: KONG_ADMIN_LISTEN
-            value: 0.0.0.0:8001,0.0.0.0:8444 ssl
+            value: off
           - name: KONG_PROXY_LISTEN
             value: 0.0.0.0:8000,0.0.0.0:8443 ssl
           - name: KONG_DECLARATIVE_CONFIG
@@ -53,29 +49,16 @@ spec:
           containerPort: 8000
         - name: data-https
           containerPort: 8443
-        - name: admin-http
-          containerPort: 8001
-        - name: admin-https
-          containerPort: 8444
-        livenessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /status
-            port: 8001
-            scheme: HTTP
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
         readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /status
-            port: 8001
-            scheme: HTTP
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 5
           periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
+        livenessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
       volumes:
       - name: kongdeclarative
         configMap:
@@ -96,14 +79,6 @@ spec:
   - name: kong-proxy-https
     port: 8443
     targetPort: 8443
-    protocol: TCP
-  - name: http
-    port: 8001
-    targetPort: 8001
-    protocol: TCP
-  - name: https
-    port: 8444
-    targetPort: 8444
     protocol: TCP
   selector:
     app: kong-dbless
