@@ -39,7 +39,7 @@ spec:
           - name: KONG_ADMIN_ERROR_LOG
             value: /dev/stderr
           - name: KONG_ADMIN_LISTEN
-            value: 0.0.0.0:8001,0.0.0.0:8444 ssl
+            value: 'off'
           - name: KONG_PROXY_LISTEN
             value: 0.0.0.0:8000,0.0.0.0:8443 ssl
         ports:
@@ -47,10 +47,6 @@ spec:
           containerPort: 8000
         - name: data-https
           containerPort: 8443
-        - name: admin-http
-          containerPort: 8001
-        - name: admin-https
-          containerPort: 8444
         readinessProbe:
           tcpSocket:
             port: 8000
@@ -78,14 +74,6 @@ spec:
   - name: kong-proxy-https
     port: 8443
     targetPort: 8443
-    protocol: TCP
-  - name: http
-    port: 80
-    targetPort: 8001
-    protocol: TCP
-  - name: https
-    port: 443
-    targetPort: 8444
     protocol: TCP
   selector:
     app: kong-ingress-data-plane
