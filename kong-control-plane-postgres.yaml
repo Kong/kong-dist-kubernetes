@@ -65,7 +65,7 @@ spec:
       serviceAccountName: kong
       initContainers:
       - name: kong-migration
-        image: kong
+        image: kong:1.1
         imagePullPolicy: IfNotPresent
         env:
           - name: KONG_PG_PASSWORD
@@ -75,7 +75,7 @@ spec:
         command: [ "kong", "migrations", "bootstrap" ]
       containers:
       - name: kong-control-plane
-        image: kong
+        image: kong:1.1
         imagePullPolicy: IfNotPresent
         env:
           - name: KONG_PG_PASSWORD
@@ -143,7 +143,7 @@ spec:
     targetPort: 8001
     protocol: TCP
   - name: https
-    port: 8444
+    port: 443
     targetPort: 8444
     protocol: TCP
   selector:

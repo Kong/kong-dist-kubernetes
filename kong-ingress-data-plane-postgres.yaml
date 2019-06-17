@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: kong-ingress-data-plane
-        image: kong
+        image: kong:1.1
         imagePullPolicy: IfNotPresent
         env:
           - name: KONG_PG_PASSWORD
