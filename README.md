@@ -49,6 +49,37 @@ Cleanup
 make cleanup
 ```
 
+## Usage
+
+Assuming the prerequisite of access to a k8s cluster via kubectl
+
+```
+make run_<postgres|cassandra|dbless>
+```
+
+Expose the admin api
+```
+kubectl port-forward -n kong svc/kong-control-plane 8001:8001 &
+curl localhost:8001
+```
+
+Access the proxy
+```
+export HOST=$(kubectl get nodes --namespace default -o jsonpath='{.items[0].status.addresses[0].address}')
+export PROXY_PORT=$(kubectl get svc --namespace kong kong-ingress-data-plane -o jsonpath='{.spec.ports[0].nodePort}')
+curl $HOST:$PROXY_PORT
+```
+
+If using dbless/declarative the `declarative.yaml` file is mounted as a config
+map onto the Kong containers. We use the md5sum of `declarative.yaml` file to
+update the deployment but per [Facilitate ConfigMap rollouts / management](https://github.com/kubernetes/kubernetes/issues/22368) for production setups
+one would might be best to use helm, kustomize or [reloader](https://github.com/stakater/reloader).
+
+Cleanup
+```
+make cleanup
+```
+
 [kong-logo]: https://konghq.com/wp-content/uploads/2017/10/kong-cover@2x-1.png
 [website-url]: https://konghq.com/
 [website-badge]: https://img.shields.io/badge/GETKong.org-Learn%20More-43bf58.svg

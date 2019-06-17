@@ -143,7 +143,7 @@ spec:
     targetPort: 8001
     protocol: TCP
   - name: https
-    port: 8444
+    port: 443
     targetPort: 8444
     protocol: TCP
   selector:

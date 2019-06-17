@@ -1,0 +1,84 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: kong
+  name: kong-dbless
+  labels:
+    app: kong-dbless
+spec:
+  selector:
+    matchLabels:
+      app: kong-dbless
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: kong-dbless
+    spec:
+      containers:
+      - name: kong-dbless
+        image: kong
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: KONG_DATABASE
+            value: 'off'
+          - name: KONG_LOG_LEVEL
+            value: debug
+          - name: KONG_ADMIN_ACCESS_LOG
+            value: /dev/stdout
+          - name: KONG_PROXY_ERROR_LOG
+            value: /dev/stderr
+          - name: KONG_ADMIN_ERROR_LOG
+            value: /dev/stderr
+          - name: KONG_ADMIN_LISTEN
+            value: off
+          - name: KONG_PROXY_LISTEN
+            value: 0.0.0.0:8000,0.0.0.0:8443 ssl
+          - name: KONG_DECLARATIVE_CONFIG
+            value: /etc/kong/declarative.yaml
+        volumeMounts:
+          - name: kongdeclarative
+            mountPath: /etc/kong/declarative.yaml
+            subPath: declarative.yaml
+        ports:
+        - name: data-http
+          containerPort: 8000
+        - name: data-https
+          containerPort: 8443
+        readinessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+      volumes:
+      - name: kongdeclarative
+        configMap:
+          name: kongdeclarative
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: kong
+  name: kong-dbless
+spec:
+  type: NodePort
+  ports:
+  - name: kong-proxy-http
+    port: 8000
+    targetPort: 8000
+    protocol: TCP
+  - name: kong-proxy-https
+    port: 8443
+    targetPort: 8443
+    protocol: TCP
+  selector:
+    app: kong-dbless
