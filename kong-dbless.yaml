@@ -35,7 +35,7 @@ spec:
           - name: KONG_ADMIN_ERROR_LOG
             value: /dev/stderr
           - name: KONG_ADMIN_LISTEN
-            value: off
+            value: 'off'
           - name: KONG_PROXY_LISTEN
             value: 0.0.0.0:8000,0.0.0.0:8443 ssl
           - name: KONG_DECLARATIVE_CONFIG
