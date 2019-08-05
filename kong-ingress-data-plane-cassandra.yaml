@@ -33,7 +33,7 @@ spec:
           - name: KONG_CASSANDRA_KEYSPACE
             value: kong
           - name: KONG_LOG_LEVEL
-            value: debug
+            value: notice
           - name: KONG_ADMIN_ACCESS_LOG
             value: /dev/stdout
           - name: KONG_PROXY_ERROR_LOG
