@@ -1,0 +1,21 @@
+dist: xenial
+sudo: false
+
+language: generic
+
+env:
+  matrix:
+    - K8S_VERSION=v1.15.0 KONG_TEST_DATABASE=postgres
+    - K8S_VERSION=v1.15.0 KONG_TEST_DATABASE=cassandra
+    - K8S_VERSION=v1.14.3 KONG_TEST_DATABASE=postgres
+    - K8S_VERSION=v1.13.6 KONG_TEST_DATABASE=postgres
+matrix:
+  allow_failures:
+    - env: K8S_VERSION=v1.13.6
+
+install:
+  - make setup-kong-build-tools
+  - pushd kong-build-tools && make setup-ci && popd
+
+script:
+  - make test
