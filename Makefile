@@ -8,7 +8,6 @@ setup-kong-build-tools:
 	git reset --hard ${KONG_BUILD_TOOLS}; \
 
 test:
-	make run_${KONG_TEST_DATABASE}
 	./run_tests.sh
 
 k8s_setup:
