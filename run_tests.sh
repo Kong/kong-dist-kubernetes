@@ -17,6 +17,7 @@ while [[ "$(kubectl get pod --all-namespaces | grep -v Running | grep -v Complet
 done
 
 make run_$KONG_TEST_DATABASE
+sleep 10
 
 counter=0
 while [[ "$(kubectl get deployment kong-control-plane -n kong | tail -n +2 | awk '{print $4}')" != 1 ]]; do
@@ -39,6 +40,18 @@ while [[ "$(kubectl get deployment kong-ingress-data-plane -n kong | tail -n +2 
   fi
   echo "waiting for Kong data plane to be ready"
   kubectl get pod --all-namespaces -o wide
+  sleep 10;
+done
+
+counter=0
+while [[ "$(kubectl get pod --all-namespaces | grep -v Running | grep -v Completed | wc -l)" != 1 ]]; do
+  counter=$((counter + 1))
+  if [ "$counter" -gt "30" ]
+  then
+    exit 1
+  fi
+  kubectl get pod --all-namespaces -o wide
+  echo "something is still not ready"
   sleep 10;
 done
 
