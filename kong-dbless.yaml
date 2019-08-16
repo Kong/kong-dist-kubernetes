@@ -20,6 +20,22 @@ spec:
         app: kong-dbless
     spec:
       containers:
+      - name: hupit
+        image: hbagdi/hupit:v0.1.0
+        command: [ "hupit", "--file", "/kong", "--command", "curl -v http://localhost:8001/config -F 'config=@/kong/declarative.yaml'"]
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 8042
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 8042
+        volumeMounts:
+          - name: kongdeclarative
+            mountPath: /kong
       - name: kong-dbless
         image: kong
         imagePullPolicy: IfNotPresent
@@ -35,15 +51,14 @@ spec:
           - name: KONG_ADMIN_ERROR_LOG
             value: /dev/stderr
           - name: KONG_ADMIN_LISTEN
-            value: 'off'
+            value: '127.0.0.1:8001'
           - name: KONG_PROXY_LISTEN
             value: 0.0.0.0:8000,0.0.0.0:8443 ssl
           - name: KONG_DECLARATIVE_CONFIG
-            value: /etc/kong/declarative.yaml
+            value: /kong/declarative.yaml
         volumeMounts:
           - name: kongdeclarative
-            mountPath: /etc/kong/declarative.yaml
-            subPath: declarative.yaml
+            mountPath: /kong
         ports:
         - name: data-http
           containerPort: 8000
