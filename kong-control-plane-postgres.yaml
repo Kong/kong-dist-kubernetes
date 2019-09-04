@@ -72,6 +72,8 @@ spec:
             value: kong
           - name: KONG_PG_HOST
             value: postgres.kong.svc
+          - name: KONG_LICENSE_DATA
+            value: 'SNIP'
         command: [ "kong", "migrations", "bootstrap" ]
       containers:
       - name: kong-control-plane
@@ -94,13 +96,8 @@ spec:
             value: 0.0.0.0:8001,0.0.0.0:8444 ssl
           - name: KONG_PROXY_LISTEN
             value: 'off'
-          - name: KONG_ADMIN_SSL_CERT
-            value: /api-server-cert/tls.crt
-          - name: KONG_ADMIN_SSL_CERT_KEY
-            value: /api-server-cert/tls.key
-        volumeMounts:
-          - name: api-server-cert
-            mountPath: /api-server-cert
+          - name: KONG_LICENSE_DATA
+            value: 'SNIP'
         ports:
         - name: admin-http
           containerPort: 8001
@@ -125,10 +122,6 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
-      volumes:
-      - name: api-server-cert
-        secret:
-          secretName: kong-control-plane.kong.svc
 ---
 apiVersion: v1
 kind: Service
