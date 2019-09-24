@@ -14,6 +14,7 @@ env:
 matrix:
   allow_failures:
     - env: K8S_VERSION=v1.15.0 KONG_TEST_DATABASE=cassandra
+    - env: K8S_VERSION=v1.11.10 KONG_TEST_DATABASE=postgres
 
 
 install:
