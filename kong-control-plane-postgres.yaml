@@ -145,15 +145,9 @@ metadata:
   namespace: kong
   name: kong-control-plane
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
-  - name: http
-    port: 8001
-    targetPort: 8001
-    protocol: TCP
-  - name: https
-    port: 443
-    targetPort: 8444
-    protocol: TCP
+    - port: 8001
   selector:
     app: kong-control-plane
+
