@@ -73,6 +73,15 @@ spec:
           - name: KONG_PG_HOST
             value: postgres.kong.svc
         command: [ "kong", "migrations", "bootstrap" ]
+      - name: kong-migration-up
+        image: kong
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: KONG_PG_PASSWORD
+            value: kong
+          - name: KONG_PG_HOST
+            value: postgres.kong.svc
+        command: [ "kong", "migrations", "up" ]
       containers:
       - name: kong-control-plane
         image: kong
