@@ -21,6 +21,16 @@ spec:
       labels:
         app: kong-ingress-data-plane
     spec:
+      initContainers:
+      - name: wait-for-postgres
+        image: busybox:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: KONG_PG_PORT
+            value: "5432"
+          - name: KONG_PG_HOST
+            value: postgres.kong.svc
+        command: [ "/bin/sh", "-c", "until nc -zv $KONG_PG_HOST $KONG_PG_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
       containers:
       - name: kong-ingress-data-plane
         image: kong

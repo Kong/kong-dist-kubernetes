@@ -64,15 +64,15 @@ spec:
     spec:
       serviceAccountName: kong
       initContainers:
-      - name: kong-migration
-        image: kong
+      - name: wait-for-postgres
+        image: busybox:latest
         imagePullPolicy: IfNotPresent
         env:
-          - name: KONG_PG_PASSWORD
-            value: kong
+          - name: KONG_PG_PORT
+            value: "5432"
           - name: KONG_PG_HOST
             value: postgres.kong.svc
-        command: [ "kong", "migrations", "bootstrap" ]
+        command: [ "/bin/sh", "-c", "until nc -zv $KONG_PG_HOST $KONG_PG_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
       - name: kong-migration-up
         image: kong
         imagePullPolicy: IfNotPresent
@@ -81,7 +81,7 @@ spec:
             value: kong
           - name: KONG_PG_HOST
             value: postgres.kong.svc
-        command: [ "kong", "migrations", "up" ]
+        command: [ "/bin/sh", "-c", "kong migrations up && kong migrations finish" ]
       containers:
       - name: kong-control-plane
         image: kong
@@ -150,4 +150,39 @@ spec:
     - port: 8001
   selector:
     app: kong-control-plane
-
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: kong
+  name: kong-control-plane-bootstrap
+  labels:
+    app: kong-control-plane-bootstrap
+spec:
+  template:
+    metadata:
+      name: kong-control-plane-bootstrap
+      labels:
+        app: kong-control-plane
+    spec:
+      initContainers:
+      - name: wait-for-postgres
+        image: busybox:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: KONG_PG_PORT
+            value: "5432"
+          - name: KONG_PG_HOST
+            value: postgres.kong.svc
+        command: [ "/bin/sh", "-c", "until nc -zv $KONG_PG_HOST $KONG_PG_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
+      containers:
+      - name: kong-migration-boostrap
+        image: kong
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: KONG_PG_PASSWORD
+            value: kong
+          - name: KONG_PG_HOST
+            value: postgres.kong.svc
+        command: [ "kong", "migrations", "bootstrap" ]
+      restartPolicy: OnFailure
