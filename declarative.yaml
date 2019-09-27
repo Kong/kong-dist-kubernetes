@@ -1,16 +1,9 @@
 _format_version: "1.1"
 
 services:
-- name: my-service
-  url: https://example.com
-  plugins:
-  - name: key-auth
+- name: echo
+  url: http://echo.default.svc.cluster.local:8080
   routes:
-  - name: my-route
-    paths:
-    - /
-
-consumers:
-- username: my-user
-  keyauth_credentials:
-  - key: my-key
+  - name: echo
+    hosts:
+      - echo.com
