@@ -42,6 +42,8 @@ spec:
         env:
           - name: KONG_DATABASE
             value: 'off'
+          - name: KONG_NGINX_WORKER_PROCESSES
+            value: "1"
           - name: KONG_LOG_LEVEL
             value: notice
           - name: KONG_ADMIN_ACCESS_LOG

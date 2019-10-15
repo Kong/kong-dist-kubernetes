@@ -74,6 +74,8 @@ spec:
             value: cassandra.default.svc
           - name: KONG_CASSANDRA_KEYSPACE
             value: kong
+          - name: KONG_NGINX_WORKER_PROCESSES
+            value: "1"
         command: [ "kong", "migrations", "bootstrap" ]
       - name: kong-migration-up
         image: kong
@@ -111,6 +113,8 @@ spec:
             value: /api-server-cert/tls.crt
           - name: KONG_ADMIN_SSL_CERT_KEY
             value: /api-server-cert/tls.key
+          - name: KONG_NGINX_WORKER_PROCESSES
+            value: "1"
         volumeMounts:
           - name: api-server-cert
             mountPath: /api-server-cert

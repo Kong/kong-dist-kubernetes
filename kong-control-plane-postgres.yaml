@@ -81,6 +81,8 @@ spec:
             value: kong
           - name: KONG_PG_HOST
             value: postgres.kong.svc
+          - name: KONG_NGINX_WORKER_PROCESSES
+            value: "1"
         command: [ "/bin/sh", "-c", "kong migrations up && kong migrations finish" ]
       containers:
       - name: kong-control-plane
@@ -107,6 +109,8 @@ spec:
             value: /api-server-cert/tls.crt
           - name: KONG_ADMIN_SSL_CERT_KEY
             value: /api-server-cert/tls.key
+          - name: KONG_NGINX_WORKER_PROCESSES
+            value: "1"
         volumeMounts:
           - name: api-server-cert
             mountPath: /api-server-cert
@@ -184,5 +188,7 @@ spec:
             value: kong
           - name: KONG_PG_HOST
             value: postgres.kong.svc
+          - name: KONG_NGINX_WORKER_PROCESSES
+            value: "1"
         command: [ "kong", "migrations", "bootstrap" ]
       restartPolicy: OnFailure
