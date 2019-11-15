@@ -1,4 +1,4 @@
-KONG_BUILD_TOOLS?=2.0.3
+KONG_BUILD_TOOLS?=2.0.6
 KONG_TEST_DATABASE?=postgres
 
 setup-kong-build-tools:
