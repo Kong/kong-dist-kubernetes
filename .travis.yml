@@ -5,18 +5,18 @@ language: generic
 
 env:
   matrix:
-    - K8S_VERSION=v1.16.2 KONG_TEST_DATABASE=postgres
-    - K8S_VERSION=v1.16.2 KONG_TEST_DATABASE=cassandra
-    - K8S_VERSION=v1.15.3 KONG_TEST_DATABASE=postgres
-    - K8S_VERSION=v1.15.3 KONG_TEST_DATABASE=cassandra
-    - K8S_VERSION=v1.14.6 KONG_TEST_DATABASE=postgres
+    - K8S_VERSION=v1.16.3 KONG_TEST_DATABASE=postgres
+    - K8S_VERSION=v1.16.3 KONG_TEST_DATABASE=cassandra
+    - K8S_VERSION=v1.15.6 KONG_TEST_DATABASE=postgres
+    - K8S_VERSION=v1.15.6 KONG_TEST_DATABASE=cassandra
+    - K8S_VERSION=v1.14.9 KONG_TEST_DATABASE=postgres
     - K8S_VERSION=v1.13.10 KONG_TEST_DATABASE=postgres
     - K8S_VERSION=v1.12.9 KONG_TEST_DATABASE=postgres
     - K8S_VERSION=v1.11.10 KONG_TEST_DATABASE=postgres
 matrix:
   allow_failures:
-    - env: K8S_VERSION=v1.15.3 KONG_TEST_DATABASE=cassandra
-    - env: K8S_VERSION=v1.16.2 KONG_TEST_DATABASE=cassandra
+    - env: K8S_VERSION=v1.15.6 KONG_TEST_DATABASE=cassandra
+    - env: K8S_VERSION=v1.16.3 KONG_TEST_DATABASE=cassandra
 
 
 install:
