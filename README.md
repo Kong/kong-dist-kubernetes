@@ -1,3 +1,10 @@
+# DEPRECATED
+
+This repository has been deprecated.
+Please use docs for
+[Kong for Kubernetes](https://docs.konghq.com/1.4.x/kong-for-kubernetes/) 
+for installation and configuration of Kong on Kubernetes.
+
 # [KONG][website-url] :heavy_plus_sign: [Kubernetes Deployment](http://kubernetes.io/)
 
 [![Website][website-badge]][website-url]
